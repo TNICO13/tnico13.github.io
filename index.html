@@ -3,11 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gradient Glow Website</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Gradient Background with Octagon Outline Pattern</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(to top, #000000, #000033);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            color: white;
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .octagon-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cGF0aCBkPSJNNDQuMjg1LDIuODU0IEM0OC4yNDEsMi44NTQsNTIuMTQ0LDQuNzc0LDU0Ljk0Nyw3Ljc3NyBMOTIuMjIyLDQ1LjA1NSBDOTQuOTI1LDQ3Ljg1OCw5Ni44NDUsNTEuNzU3LDk2Ljg0NSw1NS43MTMgTDk2Ljg0NSw5NS4xNTggQzk2Ljg0NSw5OS4xMjEsOTQuOTI1LDEwMy4wMiw5Mi4yMjIsMTA0LjgyIEx1MTY4Ljk0Nyw5Mi4yMjIgQzk0LjkyNSw5NC45MjUsOTYuODQ1LDk2Ljg0NSw5Ni44NDUsOTAuNTE3MyBMOTYuODQ1LDk1LjE1OCBMODAuMDAyLDM0LjI4NSBDNzcuMjk5LDI3LjU4MiEsNzMuMzk5LDI1LjY2MiwyOS40NTEsMjIuODU0IEwgNDQuMjg1LDIuODU0ICIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjQ0NDQ0NDIiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+');
+            opacity: 0.1; /* Adjust the opacity to your preference */
+            background-size: 10%;
+            z-index: 1;
+        }
+        .text-overlay {
+            position: relative;
+            bottom: 20%;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            color: #00ffff;
+            text-shadow: 0 0 3px #00ffff, 0 0 6px #00ffff, 0 0 9px #00ffff;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 0.15em solid #00ffff;
+            z-index: 2;
+        }
+        .hidden {
+            visibility: hidden;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #00ffff; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
 </head>
 <body>
-    <div class="glow"></div>
-    <script src="script.js"></script>
+    <div class="octagon-pattern"></div>
+    <div class="text-overlay hidden" id="text-overlay"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const text = "Roma Associates";
+            const textOverlay = document.getElementById('text-overlay');
+            let index = 0;
+
+            function type() {
+                textOverlay.classList.remove('hidden');
+                if (index < text.length) {
+                    textOverlay.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(type, Math.random() * 150 + 100); // Random interval between 100ms and 250ms
+                } else {
+                    setTimeout(() => {
+                        textOverlay.style.animation = 'fadeOut 3s forwards';
+                        setTimeout(() => {
+                            textOverlay.textContent = "";
+                            textOverlay.style.animation = 'none';
+                            textOverlay.classList.add('hidden');
+                            index = 0;
+                            setTimeout(type, 1000); // Wait 1 second before starting again
+                        }, 3000);
+                    }, 3000); // Show the text for 3 seconds before fading out
+                }
+            }
+
+            type();
+        });
+    </script>
 </body>
 </html>
